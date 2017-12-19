@@ -11,7 +11,6 @@ const GLInstance = canvasId => {
 
   gl.fClear = function() {
     this.clear(this.COLOR_BUFFER_BIT | this.DEPTH_BUFFER_BIT);
-    return this;
   };
 
   gl.fSetSize = function(w, h) {
@@ -21,8 +20,16 @@ const GLInstance = canvasId => {
     this.canvas.height = h;
 
     this.viewport(0, 0, w, h);
-    return this;
   };
+
+  gl.fCreateArrayBuffer = function(floatArray, isStatic = true) {
+    const usage = isStatic ? this.STATIC_DRAW : this.DYNAMIC_DRAW;
+    const buffer = this.createBuffer();
+    this.bindBuffer(this.ARRAY_BUFFER, buffer);
+    this.bufferData(this.ARRAY_BUFFER, floatArray, usage);
+    this.bindBuffer(this.ARRAY_BUFFER, null);
+    return buffer;
+  }
 
   return gl;
 }

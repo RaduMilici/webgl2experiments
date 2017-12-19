@@ -62,6 +62,15 @@ const shaderUtil = {
     gl.deleteShader(fShader);
 
     return program;
+  },
+  creteShaderProgram(gl) {
+    const vertexShader = this.createShader(gl, shaderCode.vertex, gl.VERTEX_SHADER);
+    const fragmentShader = this.createShader(gl, shaderCode.fragment, gl.FRAGMENT_SHADER);
+    if (!vertexShader || !fragmentShader) {
+      console.error('could not create shaders');
+      return null;
+    }
+    return this.createProgram(gl, vertexShader, fragmentShader, true);
   }
 }
 
